@@ -17,7 +17,6 @@ class Adminpanel extends CI_Controller {
 	public function login($value='')
 	{
 		$this->load->model('Madmin');
-		$this->load->library('form_validation');
 		$username = $this->input->post('username');
 		$password = $this->input->post('password');
 
@@ -54,7 +53,7 @@ class Adminpanel extends CI_Controller {
 	public function dashboard($value='')
 	{
 
-		if (empty($this->session->userdata('username'))) {
+		if (empty($this->session->userdata('userName'))) {
 			redirect('adminpanel');
 		}
 

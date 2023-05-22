@@ -26,6 +26,9 @@
               <div class="card-header">
                 <h3 class="card-title">Data Kategori</h3>
               </div>
+              <?php if (!empty(validation_errors())): ?>
+                <?php echo validation_errors('<p class="alert alert-warning">', '</p>'); ?>
+              <?php endif ?>
               <!-- form start -->
               <form class="form-horizontal" method="post" action="<?php echo site_url('kategori/save');?>">
                 <div class="card-body">

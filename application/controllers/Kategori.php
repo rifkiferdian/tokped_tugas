@@ -8,6 +8,17 @@ class kategori extends CI_Controller {
 		$this->load->model('Madmin');
 	}
 
+	public function rules()
+	{
+		return [
+			[
+				'field' => 'namaKat',
+				'label' => 'nama Kategori',
+				'rules' => 'required'
+			]
+		];
+	}
+
 	public function index(){
 		if(empty($this->session->userdata('userName'))){
 			redirect('adminpanel');
@@ -33,10 +44,23 @@ class kategori extends CI_Controller {
 		if(empty($this->session->userdata('userName'))){
 			redirect('adminpanel');
 		}
+
 		$namaKat = $this->input->post('namaKat');
-		$dataInput=array('namaKat'=>$namaKat);
-		$this->Madmin->insert('tbl_kategori', $dataInput);
-		redirect('kategori');
+		$rules = $this->rules();
+		$this->form_validation->set_rules($rules);
+
+		if($this->form_validation->run() == FALSE){
+			$this->load->view('admin/layout/header');
+			$this->load->view('admin/layout/menu');
+			$this->load->view('admin/kategori/formAdd');
+			$this->load->view('admin/layout/footer');
+		}else{
+			
+			$dataInput=array('namaKat'=>$namaKat);
+			$this->Madmin->insert('tbl_kategori', $dataInput);
+			redirect('kategori');
+		}
+
 	}
 
 	public function get_by_id($id){
