@@ -17,7 +17,7 @@
 <body class="hold-transition login-page">
 <div class="login-box">
   <div class="login-logo">
-    <a href="#"><b>Login</b>Admin</a>
+    <a href="#"><b>Login</b>Member</a>
   </div>
   <!-- /.login-logo -->
   <div class="card">
@@ -31,7 +31,7 @@
       <?php if (!empty(validation_errors())): ?>
         <?php echo validation_errors('<p class="alert alert-warning">', '</p>'); ?>
       <?php endif ?>
-      <form action="<?= site_url('adminpanel/login') ?>" method="post">
+      <form action="<?= site_url('memberpanel/login') ?>" method="post">
         <div class="input-group mb-3">
           <input type="text" name="username" class="form-control" placeholder="Username">
           <div class="input-group-append">
