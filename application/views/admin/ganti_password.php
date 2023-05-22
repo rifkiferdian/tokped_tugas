@@ -27,12 +27,20 @@
                 <h3 class="card-title">Form Ubah Password</h3>
               </div>
               <!-- form start -->
-              <form class="form-horizontal" method="post" action="<?php echo site_url('kategori/edit');?>">
+              <div class="container">
+                  <?php if($this->session->flashdata('message')): ?>
+                    <?php echo '<p class="alert alert-warning">'.$this->session->flashdata('message').'</p>'; ?>
+                  <?php endif; ?>
+              </div>
+              <?php if (!empty(validation_errors())): ?>
+                <?php echo validation_errors('<p class="alert alert-warning">', '</p>'); ?>
+              <?php endif ?>
+              <form class="form-horizontal" method="post" action="<?php echo site_url('adminpanel/actionGantiPassword');?>">
                 <div class="card-body">
                   <div class="form-group row">
                     <label for="inputEmail3" class="col-sm-3 col-form-label">Password Lama</label>
                     <div class="col-sm-9">
-                      <input type="text" name="password" value="" class="form-control" id="inputEmail3" placeholder="Password">
+                      <input type="text" name="passwordLama" value="" class="form-control" id="inputEmail3" placeholder="Password">
                     </div>
                   </div>
                   <div class="form-group row">
@@ -42,9 +50,9 @@
                     </div>
                   </div>
                   <div class="form-group row">
-                    <label for="inputEmail3" class="col-sm-3 col-form-label">Ulangi Password</label>
+                    <label for="inputEmail3" class="col-sm-3 col-form-label">Konfirmasi Password</label>
                     <div class="col-sm-9">
-                      <input type="text" name="password" value="" class="form-control" id="inputEmail3" placeholder="Ulangi Password">
+                      <input type="text" name="passconf" value="" class="form-control" id="inputEmail3" placeholder="Konfirmasi Password">
                     </div>
                   </div>
                 </div>

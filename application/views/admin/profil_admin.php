@@ -20,7 +20,11 @@
       <div class="container-fluid">
         <div class="row">
 
-        <!-- <?php echo "<pre>". print_r($data,1) ."</pre>";  ?> -->
+          <div class="container">
+              <?php if($this->session->flashdata('message')): ?>
+                <?php echo '<p class="alert alert-info">'.$this->session->flashdata('message').'</p>'; ?>
+              <?php endif; ?>
+          </div>
           <!-- left column -->
           <div class="col-md-4"></div>
           <div class="col-md-4">

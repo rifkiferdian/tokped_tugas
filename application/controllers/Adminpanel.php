@@ -15,7 +15,6 @@ class Adminpanel extends CI_Controller {
 		$this->load->model('Madmin');
 	}
 
-
 	public function index()
 	{
 		if (!empty($this->session->userdata('userName'))) {
@@ -57,6 +56,62 @@ class Adminpanel extends CI_Controller {
 		$this->load->view('admin/layout/menu');
 		$this->load->view('admin/ganti_password', $data);
 		$this->load->view('admin/layout/footer');
+	}
+
+	public function actionGantiPassword(Type $var = null)
+	{
+
+		if(empty($this->session->userdata('userName'))){
+			redirect('adminpanel');
+		}
+
+		$rules = array(
+				array(
+						'field' => 'password',
+						'label' => 'Password',
+						'rules' => 'required'
+				),
+				array(
+						'field' => 'passconf',
+						'label' => 'Password Confirmation',
+						'rules' => 'required'
+				),
+				array(
+						'field' => 'passwordLama',
+						'label' => 'password Lama',
+						'rules' => 'required'
+				)
+		);
+		$passwordLama = $this->input->post('passwordLama');
+		$password = $this->input->post('password');
+		$passconf = $this->input->post('passconf');
+
+		$this->form_validation->set_rules($rules);
+
+		$username = $this->session->userdata('userName');
+		$cek_pass_lama = $this->Madmin->cek_login($username,$passwordLama);
+
+		if($this->form_validation->run() == FALSE){
+			$this->gantiPassword();
+		}else{
+
+			if ($cek_pass_lama === 2) {
+				$this->session->set_flashdata('message','Password lama salah !');
+				redirect('adminpanel/gantiPassword');
+			}
+
+			if ($password !== $passconf) {
+				$this->session->set_flashdata('message','Konfirmasi password tidak sama !');
+				redirect('adminpanel/gantiPassword');
+			}
+
+			$dataUpdate = array('password' => password_hash($password, PASSWORD_DEFAULT));
+			$this->Madmin->update('tbl_admin', $dataUpdate, 'username', $username);
+
+			$this->session->set_flashdata('message','Password berhasil di rubah !');
+			redirect('adminpanel/profilAdmin');
+		}
+
 	}
 
 

@@ -50,10 +50,7 @@ class kategori extends CI_Controller {
 		$this->form_validation->set_rules($rules);
 
 		if($this->form_validation->run() == FALSE){
-			$this->load->view('admin/layout/header');
-			$this->load->view('admin/layout/menu');
-			$this->load->view('admin/kategori/formAdd');
-			$this->load->view('admin/layout/footer');
+			$this->add();
 		}else{
 			
 			$dataInput=array('namaKat'=>$namaKat);
