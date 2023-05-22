@@ -9,10 +9,56 @@ class Adminpanel extends CI_Controller {
 	 *
 	 * 
 	 */
+
+	function __construct(){
+		parent::__construct();
+		$this->load->model('Madmin');
+	}
+
+
 	public function index()
 	{
+		if (!empty($this->session->userdata('userName'))) {
+			redirect('adminpanel/dashboard');
+		}
 		$this->load->view('admin/login');
 	}
+
+
+	public function profilAdmin($value='')
+	{
+
+		if(empty($this->session->userdata('userName'))){
+			redirect('adminpanel');
+		}
+
+		$userName = $this->session->userdata('userName');
+		$dataWhere = array('username'=>$userName);
+		$data['data'] = $this->Madmin->get_by_id('tbl_admin', $dataWhere)->row_object();
+
+		$this->load->view('admin/layout/header');
+		$this->load->view('admin/layout/menu');
+		$this->load->view('admin/profil_admin', $data);
+		$this->load->view('admin/layout/footer');
+	}
+
+	public function gantiPassword($value='')
+	{
+
+		if(empty($this->session->userdata('userName'))){
+			redirect('adminpanel');
+		}
+		
+		$userName = $this->session->userdata('userName');
+		$dataWhere = array('username'=>$userName);
+		$data['data'] = $this->Madmin->get_by_id('tbl_admin', $dataWhere)->row_object();
+
+		$this->load->view('admin/layout/header');
+		$this->load->view('admin/layout/menu');
+		$this->load->view('admin/ganti_password', $data);
+		$this->load->view('admin/layout/footer');
+	}
+
 
 	public function login($value='')
 	{

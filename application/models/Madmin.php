@@ -44,11 +44,6 @@ class Madmin extends CI_Model
 		return 0;
 	}
 
-	public function cek_password($password='')
-	{
-		$q = $this->db->get_where('tbl_admin', array('password' => $password ));
-		return $q;
-	}
 
 	public function get_all_data($tabel){
 		$q=$this->db->get($tabel);
