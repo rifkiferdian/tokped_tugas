@@ -4,7 +4,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Halaman Tambah Toko</h1>
+            <h1>Halaman Edit Toko</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -24,7 +24,7 @@
             <!-- Horizontal Form -->
             <div class="card card-info">
               <div class="card-header">
-                <h3 class="card-title">Form Tambah Toko</h3>
+                <h3 class="card-title">Form Edit Toko</h3>
               </div>
               <!-- form start -->
               <div class="container">
@@ -35,24 +35,42 @@
               <?php if (!empty(validation_errors())): ?>
                 <?php echo validation_errors('<p class="alert alert-warning">', '</p>'); ?>
               <?php endif ?>
-              <form class="form-horizontal" method="POST" enctype="multipart/form-data" action="<?php echo site_url('kelolatoko/add');?>">
+              <form class="form-horizontal" method="POST" enctype="multipart/form-data" action="<?php echo site_url('kelolatoko/edit');?>">
+                <input type="text" style="display: none;" name="idToko" value="<?= $data->idToko ?>">
                 <div class="card-body">
                   <div class="form-group row">
                     <label for="inputEmail3" class="col-sm-3 col-form-label">Nama Toko</label>
                     <div class="col-sm-9">
-                      <input type="text" name="namaToko" class="form-control" id="inputEmail3" placeholder="Nama Toko">
+                      <input type="text" name="namaToko" class="form-control" id="inputEmail3" placeholder="Nama Toko" value="<?= $data->namaToko ?>">
                     </div>
                   </div>
                   <div class="form-group row">
                     <label for="inputEmail3" class="col-sm-3 col-form-label">Deskripsi</label>
                     <div class="col-sm-9">
-                      <textarea class="form-control" name="deskripsi" rows="3" placeholder="Deskripsi ..."></textarea>
+                      <textarea class="form-control" name="deskripsi" rows="3" placeholder="Deskripsi ..."><?= $data->deskripsi ?></textarea>
                     </div>
                   </div>
                   <div class="form-group row">
                     <label for="inputEmail3" class="col-sm-3 col-form-label">Logo</label>
                     <div class="col-sm-9">
                       <input type="file" name="logo" class="form-control" id="inputEmail3" placeholder="Logo">
+                    </div>
+                  </div>
+                  <?php $ArraystatusAktif = array('Y' => 'Aktif' , 'N' => 'TIdak Aktif' ); ?>
+                  <div class="form-group row">
+                    <label for="inputEmail3" class="col-sm-3 col-form-label">Status Aktif</label>
+                    <div class="col-sm-9">
+						<select class="form-control" name="statusAktif">
+							<?php foreach ($ArraystatusAktif as $key => $value): ?>
+								<?php if ($data->statusAktif == $key): ?>
+									<?php $selected = 'selected' ?>
+								<?php else: ?>
+									<?php $selected = '' ?>
+								<?php endif ?>
+
+								<option value="<?= $key ?>" <?= $selected ?>><?= $value ?></option>
+							<?php endforeach ?>
+						</select>
                     </div>
                   </div>
                 </div>
