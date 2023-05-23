@@ -74,6 +74,16 @@ class Mmember extends CI_Model
 	public function delete($tabel, $id, $val){
 		$this->db->delete($tabel, array($id => $val)); 
 	}
+
+	public function KAB_KOTA($id = ''){
+		$query = $this->db->query("SELECT kode,nama FROM wilayah WHERE CHAR_LENGTH(kode)=5 ORDER BY nama;");
+		$array_dt = array();
+		foreach ($query->result() as $row)
+		{
+		        $array_dt[$row->kode]= $row->nama;
+		}
+		return $array_dt;
+	}
 }
 
 

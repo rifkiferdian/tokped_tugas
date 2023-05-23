@@ -148,4 +148,93 @@ class Memberpanel extends CI_Controller {
 		redirect('memberpanel');
 
 	}
+
+	public function profilMember($value='')
+	{
+		if (empty($this->session->userdata('userName'))) {
+			redirect('memberpanel');
+		}
+
+		$idKonsumen = $this->session->userdata('idKonsumen');
+		$dataWhere = array('idKonsumen'=>$idKonsumen);
+		$dt_user = $this->Mmember->get_by_id('tbl_member', $dataWhere)->row_object();
+		
+		$data['kota'] = $this->Mmember->KAB_KOTA();
+		$data['data'] = $dt_user;
+		$this->load->view('member/layout/header');
+		$this->load->view('member/layout/menu');
+		$this->load->view('member/profil',$data);
+		$this->load->view('member/layout/footer');
+	}
+
+	public function editMemberForm($value='')
+	{
+		if (empty($this->session->userdata('userName'))) {
+			redirect('memberpanel');
+		}
+
+		$qq = $this->Mmember->data_where("SELECT kode,nama FROM wilayah WHERE CHAR_LENGTH(kode)=5 ORDER BY nama;");
+		$option = ''; 
+		foreach ($qq->result() as $row)
+		{
+		        $option .= "<option value='$row->kode'>$row->nama</option>";
+		}
+		$data['option'] = $option;
+
+		$idKonsumen = $this->session->userdata('idKonsumen');
+		$dataWhere = array('idKonsumen'=>$idKonsumen);
+		$dt_user = $this->Mmember->get_by_id('tbl_member', $dataWhere)->row_object();
+		
+		$data['kota'] = $this->Mmember->KAB_KOTA();
+		$data['data'] = $dt_user;
+		$this->load->view('member/layout/header');
+		$this->load->view('member/layout/menu');
+		$this->load->view('member/editMemberForm', $data);
+		$this->load->view('member/layout/footer');
+	}
+
+	public function editProfilMember($value='')
+	{
+
+		$rules = array(
+				array(
+						'field' => 'namaKonsumen',
+						'label' => 'nama Lengkap',
+						'rules' => 'required'
+				),
+				array(
+						'field' => 'email',
+						'label' => 'email',
+						'rules' => 'required|valid_email'
+				),
+				array(
+						'field' => 'telp',
+						'label' => 'telpon',
+						'rules' => 'required'
+				),
+				array(
+						'field' => 'alamat',
+						'label' => 'alamat',
+						'rules' => 'required'
+				),
+		);
+
+		$this->form_validation->set_rules($rules);
+		if($this->form_validation->run() == FALSE){
+			$this->editMemberForm();
+		}else{
+			$idKonsumen = $this->session->userdata('idKonsumen');
+			$dataInput=array(
+				'namaKonsumen' => $this->input->post('namaKonsumen'),
+				'email' => $this->input->post('email'),
+				'tlpn' => $this->input->post('telp'),
+				'idKota' => $this->input->post('idKota'),
+				'alamat' => $this->input->post('alamat'),
+			);
+			$this->Mmember->update('tbl_member', $dataInput, 'idKonsumen', $idKonsumen);
+
+			$this->session->set_flashdata('message','berhasil di edit !');
+			redirect('memberpanel/profilMember');
+		}
+	}
 }
