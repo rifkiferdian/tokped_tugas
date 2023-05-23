@@ -41,11 +41,17 @@ class Mmember extends CI_Model
 			return 2;
 		}
 
-		$dataSession = array('idKonsumen' => $user->idKonsumen, 'userName' => $user->username, 'status' => 'login',  );
+		$dataSession = array('namaKonsumen' => $user->namaKonsumen,'idKonsumen' => $user->idKonsumen, 'userName' => $user->username, 'status' => 'login',  );
 		$this->session->set_userdata($dataSession);
 		return 0;
 	}
 
+	public function data_where($que='')
+	{
+		$query = $this->db->query($que);
+		// $row = $query->row_array();
+		return $query;
+	}
 
 	public function get_all_data($tabel){
 		$q=$this->db->get($tabel);
